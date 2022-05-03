@@ -1,43 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+const eventFn = () => {
+  console.log('h1 clicado');
+};
 
 function App() {
-  // const { reverse } = this.state;
-  const [reverse, setReverse] = useState(false);
-  const [counter, setCounter] = useState();
-  const reverseClass = reverse ? 'reverse' : '';
+  const [counter, setCounter] = useState(0);
+  const [counter1, setCounter1] = useState(0);
 
-  const handleClick = () => {
-    setReverse(!reverse);
-  };
+  //ComponentDidUpdate - EXecuta toda vez que o componente atualiza
+  // useEffect(() => {
+  //   console.log('ComponentDidUpdate');
+  // });
 
-  const handleIncrement = () => {
-    setCounter((c) => c + 1);
-  };
+  //ComponentDidMount - Executa 1x
+  useEffect(() => {
+    document.querySelector('h1')?.addEventListener('click', eventFn);
+    // ComponentWillUmount - Limpeza
+    return () => {
+      document.querySelector('h1')?.removeEventListener('click', eventFn);
+    };
+  }, []);
+
+  //Com dependecias - Executa toda vez que a dependeica mudar
+  useEffect(() => {
+    console.log('C1', counter, 'C2:', counter1);
+  }, [counter, counter1]);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className={`App-logo ${reverseClass}`} alt="logo" />
-
-        <p>
-          <button type="button" onClick={handleClick}>
-            Reverse {reverseClass}
-          </button>
-        </p>
-
-        <p>
-          <button type="button" onClick={handleIncrement}>
-            Increment
-          </button>
-        </p>
-
-        <h1>Contador: {counter}</h1>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
+      <p>teste1</p>
+      <h1>
+        C1: {counter} C2: {counter1}
+        {''}
+      </h1>
+      <button onClick={() => setCounter(counter + 1)}>+</button>
+      <button onClick={() => setCounter1(counter1 + 1)}>+(2)</button>
     </div>
   );
 }
