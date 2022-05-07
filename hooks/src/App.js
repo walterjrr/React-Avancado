@@ -49,16 +49,10 @@ function App() {
   return (
     <div className="App">
       <p>
-        <input
-          ref={input}
-          type="search"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          handleClick={handleClick}
-        ></input>
+        <input ref={input} type="search" value={value} onChange={(e) => setValue(e.target.value)}></input>
       </p>
       {useMemo(() => {
-        return posts.length > 0 && posts.map((post) => <Post key={post.id} post={post} />);
+        return posts.length > 0 && posts.map((post) => <Post key={post.id} post={post} handleClick={handleClick} />);
       }, [posts])}
 
       {posts.length <= 0 && <p>Ainda não existem posts.</p>}
